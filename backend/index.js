@@ -13,4 +13,4 @@ app.use(cors());
 app.listen(8000);
 
 app.use("/user", users);
-app.use("/user/blog", blogs);
+app.use("/blog", blogs);
