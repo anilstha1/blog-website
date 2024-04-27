@@ -53,10 +53,16 @@ const addBlog = async (req, res) => {
 
 const updateBlog = async (req, res) => {
   try {
-    const blogData = await Blog.findByIdAndUpdate(req.params.id, {
-      $set: req.body,
-    });
-    res.json(blogData);
+    const {title, description} = req.body;
+    const blog = await Blog.findById(req.params.id);
+    if (blog.user != req.user) {
+      res.json({message: "User is not authenticated"});
+    }
+    blog.title = title;
+    blog.description = description;
+    const updatedblog = await blog.save();
+
+    res.json(updatedblog);
   } catch (err) {
     res.json({message: "something went wrong"});
   }
@@ -64,12 +70,13 @@ const updateBlog = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
   try {
-    await Blog.findByIdAndDelete(req.params.id);
     const user = await User.findById(req.userId);
     const index = user.blogs.indexOf(req.params.id);
     user.blogs.splice(index, 1);
     await user.save();
-    res.json({message: "deleted"});
+    await Blog.findByIdAndDelete(req.params.id);
+
+    res.json({message: "post deleted"});
   } catch (err) {
     res.json({message: "something went wrong"});
   }
