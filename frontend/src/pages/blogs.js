@@ -23,7 +23,7 @@ function Blogs() {
   return (
     <div className="w-full lg:w-1/2 lg:mx-auto px-2">
       {blogs?.map((blog) => {
-        return <Blog blog={blog} />;
+        return <Blog key={blog._id} blog={blog} />;
       })}
     </div>
   );

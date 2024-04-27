@@ -37,7 +37,11 @@ function Navbar() {
       <div className="flex flex-row gap-2 mx-auto">
         {navItems.map((navItem) => {
           return (
-            <Link to={navItem.to} className="hover:font-bold">
+            <Link
+              to={navItem.to}
+              key={navItem.name}
+              className="text-black hover:font-bold"
+            >
               {navItem.name}
             </Link>
           );
